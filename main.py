@@ -10,6 +10,10 @@ def get_current_age():
     current_year = datetime.date.today().year
     foundation_year = 1920
     winery_age = current_year - foundation_year
+    return winery_age
+
+
+def get_age_ending(winery_age):
     num = winery_age % 100;
     if num < 21 and num > 4:
         return winery_age, "лет"
@@ -18,7 +22,7 @@ def get_current_age():
         return winery_age, "год"
     if num > 1 and num < 5:
         return winery_age, "года"
-    return winery_age, "лет"
+    return "лет"
 
 
 if __name__ == "__main__":
@@ -27,7 +31,9 @@ if __name__ == "__main__":
         autoescape=select_autoescape(['html', 'xml'])
     )
     template = env.get_template('template.html')
-    winery_age, age_ending = get_current_age()
+    winery_age = get_current_age()
+    age_ending = get_age_ending(winery_age)
+
     winery_age_text = "{} {}".format(winery_age, age_ending)
 
     excel_data_df = pandas.read_excel(
