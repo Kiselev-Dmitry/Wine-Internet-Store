@@ -1,6 +1,7 @@
 import datetime
 import pandas
 import collections
+import argparse
 
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 from jinja2 import Environment, FileSystemLoader, select_autoescape
@@ -26,6 +27,19 @@ def get_age_ending(winery_age):
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        description="""
+                    This script runs site and allows to update product info from file.
+                    To run site in default way user must type in command line like this:
+                    'python3 main.py'.
+                    To update new product info from file user must type in command line like this:
+                    'python3 main.py -file_path C:/Users/PycharmProjects/site-project/file.xlsx'. """)
+    parser.add_argument('-file_path', default='wine.xlsx',
+                        help="Input file name witn path after '-file_path' (default - wine.xlsx)")
+    args = parser.parse_args()
+    file_path = args.file_path
+
     env = Environment(
         loader=FileSystemLoader('.'),
         autoescape=select_autoescape(['html', 'xml'])
@@ -37,7 +51,7 @@ if __name__ == "__main__":
     winery_age_text = "{} {}".format(winery_age, age_ending)
 
     excel_data_df = pandas.read_excel(
-        "wine.xlsx",
+        file_path,
         na_values=None,
         keep_default_na=False
     )
