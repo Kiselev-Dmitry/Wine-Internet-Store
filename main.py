@@ -40,7 +40,6 @@ if __name__ == "__main__":
     for wine in wines:
         grouped_products[wine['Категория']].append(wine)
 
-#    rendered_page = template.render(age=winery_age_text, wines=wines)
     rendered_page = template.render(age=winery_age_text, grouped_products=grouped_products)
     with open('index.html', 'w', encoding="utf8") as file:
         file.write(rendered_page)
